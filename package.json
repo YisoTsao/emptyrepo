@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prety": "prettier --write ./components/*  ./pages/*",
+    "prety": "prettier --write ./components/* ./pages/*",
     "es": "eslint ./components/* ./pages/*",
     "pre-lint": "yarn es; yarn prety"
   },
@@ -31,7 +31,20 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": "4",
+    "lint-staged": "^11.1.2",
     "prettier": "^2.3.2",
     "typescript": "^4.3.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged --allow-empty && echo \"git commit trigger\""
+    }
+  },
+  "lint-staged": {
+    "*.{tsx,ts,js,jsx}": [
+      "yarn prety",
+      "yarn es"
+    ]
   }
 }
