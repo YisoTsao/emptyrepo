@@ -1,36 +1,37 @@
+import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import styled, { css } from 'styled-components'
+import React from 'react'
+import { signIn, signOut, useSession } from 'next-auth/client'
 
-export default function Home() {
-  const Button = styled.button`
-    border-radius: 3px;
-    border: 2px solid palevioletred;
-    color: palevioletred;
-    margin: 0.5em 1em;
-    padding: 0.25em 1em;
+const home = () => {
+  const [session, loading] = useSession()
 
-    ${props =>
-      props.primary &&
-      css`
-        background: palevioletred;
-        color: white;
-      `}
-  `
   return (
-    <div className={styles.container + ' p-8'}>
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+    <div className={styles.container}>
+      <Head>
+        <title>Jobs App</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Empty Project</h2>
-            <Button>Normal Button</Button>
-            <Button primary>Primary Button</Button>
-          </a>
-        </div>
+      <main className={styles.main}>
+        {!session && (
+          <>
+            <h1>You are not signed in</h1> <br />
+            <button onClick={signIn}>Sign in</button>
+          </>
+        )}
+
+        {session && (
+          <>
+            <h1>Signed in as {session.user.name} </h1> <br />
+            <button onClick={signOut}>Sign out</button>
+          </>
+        )}
       </main>
+
+      <footer className={styles.footer}>Powered by Pragmatic Reviews</footer>
     </div>
   )
 }
+
+export default home
